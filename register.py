@@ -1,19 +1,16 @@
 from selenium.webdriver import Chrome
-from selenium.webdriver import Firefox
-from selenium.webdriver import FirefoxOptions
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from time import sleep as wait
-from settingloader import get_settings
-from settingloader import get_email_split
+from Dataloaders.settingloader import get_settings
+from Dataloaders.settingloader import get_email_split
 import random
 import string
-import json
 
+setting_file=get_settings("Data/settings.json")
 
-setting_file=get_settings()
 def gen_random():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20)).replace("u","nx")
 
@@ -55,7 +52,7 @@ email_box.send_keys(e_name)
 password_box.send_keys(p_pass)
 displayname.send_keys(d_name)
 username.send_keys(u_name)
-# with open(file="Data/accounts.json",mode="r+") as file:
+# with open(file="Data/accounts_old.json",mode="r+") as file:
 #
 #     json_load=json.load(file)
 #     file.truncate(0)
