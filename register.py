@@ -11,8 +11,10 @@ import string
 
 setting_file=get_settings("Data/settings.json")
 
+
 def gen_random():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20)).replace("u","nx")
+
 
 def gen_name():
     with open(file="Data/lol.txt",mode="r",newline=None,encoding="UTF-8") as txtfile:
