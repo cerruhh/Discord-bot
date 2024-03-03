@@ -23,8 +23,8 @@ def gen_name():
 
 
 ch_options=ChromeOptions()
-#ch_options.add_argument("--headless")
-ch_options.add_argument("--incognito")
+# ch_options.add_argument("--headless")
+# ch_options.add_argument("--incognito")
 
 webdriver=Chrome(ch_options)
 webdriver.get("https://discord.com/register")

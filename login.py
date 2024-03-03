@@ -22,10 +22,10 @@ WEBDRIVER_OPTIONS.add_argument("--incognito")
 # get account data
 account_data = get_first_userdata("Data/accounts.json")
 user_token = account_data["token"]
-
-webdriver=Chrome()
-webdriver.get(REGISTER_ADDRESS)
-wait(0.5)
+#
+# webdriver=Chrome()
+# webdriver.get(REGISTER_ADDRESS)
+# wait(0.5)
 
 
 def excecute_login(webdriver, log: True):
@@ -35,6 +35,3 @@ def excecute_login(webdriver, log: True):
     except KeyError or FileNotFoundError or json.JSONDecodeError:
         print("LOGIN_FAILED;ERROR NO WEBDRIVER INSERTED")
 
-
-excecute_login(webdriver=webdriver,log=False)
-wait(30)
