@@ -23,10 +23,11 @@ WEBDRIVER_OPTIONS.add_argument("--incognito")
 account_data = get_first_userdata("Data/accounts.json")
 user_token = account_data["token"]
 
+webdriver=Chrome()
+webdriver.get(REGISTER_ADDRESS)
+wait(0.5)
 
-# load webdriver
-# discord_webdriver=Chrome(WEBDRIVER_OPTIONS)
-# discord_webdriver.get(url=REGISTER_ADDRESS)
+
 def excecute_login(webdriver, log: True):
     try:
         login_script = get_login_script(user_token)
@@ -34,4 +35,6 @@ def excecute_login(webdriver, log: True):
     except KeyError or FileNotFoundError or json.JSONDecodeError:
         print("LOGIN_FAILED;ERROR NO WEBDRIVER INSERTED")
 
-# quit webdriver
+
+excecute_login(webdriver=webdriver,log=False)
+wait(30)
