@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep as wait
 from Dataloaders.settingloader import get_settings
 from Dataloaders.settingloader import get_email_split
+from Dataloaders.LocalStorage import LocalStorage
 import random
 import string
 
@@ -33,7 +34,8 @@ webdriver.get("https://discord.com/register")
 def join_server(server_invite: str):
     webdriver.find_element(by=By.CLASS_NAME,value="circleIconButton_d8df29").click()
 
-wait(7)
+
+wait(4)
 
 
 email_box = webdriver.find_element(by=By.NAME, value="email")
@@ -42,7 +44,7 @@ username=webdriver.find_element(by=By.NAME,value="username")
 displayname=webdriver.find_element(by=By.NAME,value="global_name")
 check_box=webdriver.find_elements(by=By.CLASS_NAME,value="inputDefault__7fb3f")[1]
 
-
+TEMP_INVITE="WzUmVnEeEr"
 d_name=gen_name()+str(random.randint(0,1928685))
 emailsplit=get_email_split(setting_file['default_email'])
 e_name=f"{emailsplit[0]}+{gen_random()}@{emailsplit[1]}"
@@ -88,14 +90,29 @@ for _ in range(0,3):
 # alexander_stubb=webdriver.find_element(by=By.CLASS_NAME,value="css-3esr4u-a11yText")
 # alexander_stubb.click()
 login_box.click()
-if input("rdy?: ")=="E":
+if str(input("rdy?: "))=="E":
     exit(0)
-action.send_keys(Keys.ESCAPE).perform()
-for _ in range(0,9):
-    action.send_keys(Keys.TAB).perform()
-action.send_keys(Keys.ENTER).perform()
 
-#join_server("JPEXgqSq")
-wait(10)
+storage=LocalStorage(webdriver)
+webdriver.refresh()
+print(storage.keys())
+got_token=storage.get("token")
+print(got_token)
+print(username)
+
+
+
+wait(3)
+
+# action.send_keys(Keys.ESCAPE).perform()
+# webdriver.find_element(by=By.XPATH,value='//*[@id="app-mount"]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]/div[2]/a').click() #want to join a server?
+# wait(0.1)
+# action.send_keys(Keys.TAB).perform()
+# action.send_keys(TEMP_INVITE).perform()
+# wait(0.1)
+# webdriver.find_element(by=By.XPATH,value='//*[@id="app-mount"]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]/div[2]/button[1]').click() #join
+
+
+wait(200)
 
 webdriver.quit()

@@ -55,6 +55,9 @@ except FileNotFoundError or json.JSONDecodeError:
 
         json.dump(account_template,file)
 
+    with open(file="Data/names.txt",mode="r+") as file:
+        pass
+
 else:
     answer=input("Setup was not needed! Run main_payload.py to run program or would you like to change deafult email? Y/N ")
     if answer.lower()=="n":

@@ -21,20 +21,22 @@ REGISTER_ADDRESS = "https://discord.com/login"
 ACCOUNT_PATH = "Data/accounts.json"
 WEBDRIVER_OPTIONS = ChromeOptions()
 WEBDRIVER_OPTIONS.add_argument("--incognito")
+USE_TEST=False
 
 # get account data
 account_data = get_first_userdata("Data/accounts.json")
-user_token = account_data["token"]
-#
-# webdriver=Chrome()
-# webdriver.get(REGISTER_ADDRESS)
-# wait(0.5)
+user_token = "MTIxNDYyNDk5OTE5Mzk2ODY2Mw.G_Pk3j.cf-VUuuNjRMhwnUhm2hdtqTRVksGoURiOQfzhM" #account_data["token"]
+if USE_TEST:
+    webdriver=Chrome()
+    webdriver.get(REGISTER_ADDRESS)
+    wait(0.5)
 
 
 def excecute_login(webdriver, log: True):
     try:
         login_script = get_login_script(user_token)
         webdriver.execute_script(login_script)
+        wait(50)
     except KeyError or FileNotFoundError or json.JSONDecodeError:
         print("LOGIN_FAILED;ERROR NO WEBDRIVER INSERTED")
 
@@ -60,4 +62,8 @@ def execute_join(webdriver,invite:str): #6
     wait(10)
     actions.send_keys(Keys.ENTER).perform()
     wait(30)
+
+
+
+#excecute_login(webdriver=webdriver,log=False)
 

@@ -1,5 +1,6 @@
 import json
-
+import random
+import string
 
 
 def get_settings(current_path:str):
@@ -19,3 +20,10 @@ def change_setting(key:str,value,path:str):
         setting_file.seek(0)
         json.dump(load_json,setting_file,indent=1)
 
+def gen_random():
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20)).replace("u", "nx")
+
+
+def gen_random_email_numbers(email:str):
+    email_s=get_email_split(email=email)
+    return f"{email_s[0]}+{gen_random()}@{email_s[1]}"
