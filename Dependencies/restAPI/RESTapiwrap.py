@@ -2,32 +2,31 @@ import json
 import inspect
 import time
 import requests
-from time import sleep as wait
 
-from logger_discord import LogLevel, Logger
+from Dependencies.logger.logger_discord import LogLevel, Logger
 
 #functions for REST requests in Wrapper class
 class Wrapper:
 	#returns formatted log string and color for REST requests
 	@staticmethod
-	def logFormatter(function, data, part):
-		# [+] (<class->function) Method -> url
-		if part == "url":
-			text = "{} -> {}".format(data[0].title(), data[1])
-			color = LogLevel.SEND
-		# [+] (<class->function) body
-		elif part == "body":
-			try:
-				text = json.dumps(data)
-			except:
-				text = str(data)
-			color = LogLevel.SEND
-		# [+] (<class->function) Response <- response.text
-		elif part == "response":
-			text = "Response <- {}".format(data.encode('utf-8'))
-			color = LogLevel.RECEIVE
-		formatted = " [+] {} {}".format(function, text)
-		return formatted, color
+	# def logFormatter(function, data, part):
+	# 	# [+] (<class->function) Method -> url
+	# 	if part == "url":
+	# 		text = "{} -> {}".format(data[0].title(), data[1])
+	# 		color = LogLevel.SEND
+	# 	# [+] (<class->function) body
+	# 	elif part == "body":
+	# 		try:
+	# 			text = json.dumps(data)
+	# 		except:
+	# 			text = str(data)
+	# 		color = LogLevel.SEND
+	# 	# [+] (<class->function) Response <- response.text
+	# 	elif part == "response":
+	# 		text = "Response <- {}".format(data.encode('utf-8'))
+	# 		color = LogLevel.RECEIVE
+	# 	formatted = " [+] {} {}".format(function, text)
+	# 	return formatted, color
 
 	#decompression for brotli
 	@staticmethod
@@ -89,7 +88,8 @@ class Wrapper:
 		if hasattr(reqsession, method): #just checks if post, get, whatever is a valid requests method
 			# 1. find function
 			stack = inspect.stack()
-			function_name = "({}->{})".format(str(stack[1][0].f_locals['self']).split(' ')[0], stack[1][3])
+			print(stack)
+			#function_name = "({}->{})".format(str(stack[1][0].f_locals['self']).split(' ')[0], stack[1][3])
 			# 2. edit request session if needed
 			if body == None:
 				if headerModifications.get('remove', None) == None:
@@ -99,8 +99,8 @@ class Wrapper:
 
 			s = Wrapper.editedReqSession(reqsession, headerModifications)
 			# 3. log url
-			text, color = Wrapper.logFormatter(function_name, [method, url], part="url")
-			Logger.log(text, color, log)
+			#text, color = Wrapper.logFormatter(function_name, [method, url], part="url")
+			#Logger.log(text, color, log)
 			# 4. format body and log
 			data = {} #now onto the body (if exists)
 			if body != None:
@@ -108,11 +108,8 @@ class Wrapper:
 					data = {'data': json.dumps(body)}
 				else:
 					data = {'data': body}
-				if log:
-					text, color = Wrapper.logFormatter(function_name, body, part="body")
-					Logger.log(text, color, log)
 			# 5. put timeout in data if needed (when we don't want to wait for a response from discord)
-			if timeout != None:
+			if timeout is not None:
 				data['timeout'] = timeout
 			# 6. the request
 			response = Wrapper.retryLogic(getattr(s, method), url, data, log)
@@ -121,8 +118,8 @@ class Wrapper:
 				response._content = Wrapper.brdecompress(response.content, log)
 			# 8. log response
 			if response != None:
-				text, color = Wrapper.logFormatter(function_name, response.text, part="response")
-				Logger.log(text, color, log)
+				#text, color = Wrapper.logFormatter(function_name, response.text, part="response")
+				#Logger.log(text, color, log)
 				# 9. update cookies
 				reqsession.cookies.update(response.cookies)
 			# 10. return response object with decompressed content

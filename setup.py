@@ -2,6 +2,26 @@ import json
 import os
 from time import sleep as wait
 from Dataloaders.settingloader import change_setting
+
+NAME = 'discord beef.'
+DESCRIPTION = 'A bot that automatically can win giveaways'
+URL = 'https://github.com/cerruhh/Discord-bot/'
+EMAIL = 'uadam.burner@gmail.com'
+AUTHOR = 'Cerruhh'
+REQUIRES_PYTHON = '>=2.7.0'
+VERSION = '0.0.1'
+
+REQUIRED = [
+    'requests',
+    'requests_toolbelt',
+    'brotli',
+    'filetype',
+    'websocket-client==0.59.0',
+    'ua-parser',
+    'colorama',
+    'selenium'
+]
+
 account_template={
   "account_list":[
 
