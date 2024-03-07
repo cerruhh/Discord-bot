@@ -2,7 +2,7 @@ import requests
 import json
 import Dataloaders.settingloader
 import Dataloaders.load_data
-from Dependencies.BypassH import bypass
+#from Dependencies.BypassH import bypass
 import socket
 import nopecha
 api_url:str="https://discord.com/api/v8/auth/fingerprint"
@@ -24,13 +24,13 @@ print(rnd_email)
 headers = {
     'user-agent': 'Mozilla/5.0'
 }
-bypass_data=bypass(sitekey=SITE_KEY,host="https://discord.com",proxy=f"{USER_IP}:5000")
-print(bypass_data)
+#bypass_data=bypass(sitekey=SITE_KEY,host="https://discord.com",proxy=f"{USER_IP}:5000")
+#print(bypass_data)
 
 
 
 payload = json.dumps({
-       "captcha_key": bypass_data,
+       "captcha_key": None,
        "consent": True,
        "email":user_email,
        "gift_code_sku_id": None,

@@ -21,15 +21,22 @@ REGISTER_ADDRESS = "https://discord.com/login"
 ACCOUNT_PATH = "Data/accounts.json"
 WEBDRIVER_OPTIONS = ChromeOptions()
 WEBDRIVER_OPTIONS.add_argument("--incognito")
-USE_TEST=False
+WEBDRIVER_OPTIONS.add_argument("--disable-blink-features=AutomationControlled")
+WEBDRIVER_OPTIONS.add_experimental_option("excludeSwitches", ["enable-automation"])
+WEBDRIVER_OPTIONS.add_experimental_option("useAutomationExtension", False)
+
+USE_TEST=True
 
 # get account data
 account_data = get_first_userdata("Data/accounts.json")
-user_token = "MTIxNDYyNDk5OTE5Mzk2ODY2Mw.G_Pk3j.cf-VUuuNjRMhwnUhm2hdtqTRVksGoURiOQfzhM" #account_data["token"]
-if USE_TEST:
-    webdriver=Chrome()
-    webdriver.get(REGISTER_ADDRESS)
-    wait(0.5)
+user_token = "MTIxNTMxMTExNDg3MTUwOTA3NA.Gd8Iuw.sgrZngNET49tM5rIh2dB67-Awqw7rlIlBrfWEs" #account_data["token"]
+
+
+
+webdriver=Chrome()
+webdriver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+webdriver.get(REGISTER_ADDRESS)
+wait(0.5)
 
 
 def excecute_login(webdriver, log: True):
@@ -65,5 +72,5 @@ def execute_join(webdriver,invite:str): #6
 
 
 
-#excecute_login(webdriver=webdriver,log=False)
+excecute_login(webdriver=webdriver,log=False)
 

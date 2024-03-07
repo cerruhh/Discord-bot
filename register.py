@@ -18,16 +18,23 @@ def gen_random():
 
 
 def gen_name():
-    with open(file="Data/lol.txt",mode="r",newline=None,encoding="UTF-8") as txtfile:
+    with open(file="Data/names.txt",mode="r",newline=None,encoding="UTF-8") as txtfile:
         c=[i.replace("\n","").replace(" ","") for i in txtfile.readlines()]
+        print(c)
         return random.choice(c)
 
 
 ch_options=ChromeOptions()
+ch_options.add_argument("--disable-blink-features=AutomationControlled")
+ch_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+ch_options.add_experimental_option("useAutomationExtension", False)
+
+
 # ch_options.add_argument("--headless")
 # ch_options.add_argument("--incognito")
 
-webdriver=Chrome(ch_options)
+webdriver=Chrome(options=ch_options)
+webdriver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 webdriver.get("https://discord.com/register")
 
 
@@ -45,12 +52,14 @@ displayname=webdriver.find_element(by=By.NAME,value="global_name")
 check_box=webdriver.find_elements(by=By.CLASS_NAME,value="inputDefault__7fb3f")[1]
 
 TEMP_INVITE="WzUmVnEeEr"
-d_name=gen_name()+str(random.randint(0,1928685))
+d_name=gen_name()
 emailsplit=get_email_split(setting_file['default_email'])
 e_name=f"{emailsplit[0]}+{gen_random()}@{emailsplit[1]}"
 print(e_name)
-u_name=gen_name()+str(random.randint(0,1928685))
+u_name=d_name+str(random.randint(0,1928685))
+print(u_name)
 p_pass=gen_random()
+print(p_pass)
 
 email_box.send_keys(e_name)
 password_box.send_keys(p_pass)
@@ -95,10 +104,9 @@ if str(input("rdy?: "))=="E":
 
 storage=LocalStorage(webdriver)
 webdriver.refresh()
-print(storage.keys())
-got_token=storage.get("token")
-print(got_token)
-print(username)
+wait(0.2)
+
+print(webdriver.execute_script("return window.localStorage;"))
 
 
 

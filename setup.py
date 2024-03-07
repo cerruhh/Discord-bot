@@ -43,19 +43,19 @@ except FileNotFoundError or json.JSONDecodeError:
     os.mkdir("Data")
     print("Creating Data folder!")
     wait(0.1)
-    with open(file="Data/accounts.json",mode="r+") as file:
+    with open(file="Data/accounts.json",mode="w") as file:
         print("Creating account file!")
         json.dump(account_template,file)
     print("Completed account file creation!")
 
-    with open(file="Data/settings.json",mode="r+") as file:
+    with open(file="Data/settings.json",mode="w") as file:
         print("Creating setting file!")
         setting_template_clone=setting_template
-        deafult_email=input("What is ur email? (please, do not use your personal email for this bot!)")
+        deafult_email=input("What is ur email? (please, do not use your personal email for this bot!) ")
 
-        json.dump(account_template,file)
+        json.dump(setting_template_clone,file)
 
-    with open(file="Data/names.txt",mode="r+") as file:
+    with open(file="Data/names.txt",mode="w") as file:
         pass
 
 else:
