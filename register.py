@@ -12,7 +12,7 @@ import string
 
 setting_file=get_settings("Data/settings.json")
 
-
+print("initializing script")
 def gen_random():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20)).replace("u","nx")
 
@@ -20,9 +20,9 @@ def gen_random():
 def gen_name():
     with open(file="Data/names.txt",mode="r",newline=None,encoding="UTF-8") as txtfile:
         c=[i.replace("\n","").replace(" ","") for i in txtfile.readlines()]
-        print(c)
         return random.choice(c)
-
+print("initializing complete")
+print("settings flags")
 
 ch_options=ChromeOptions()
 ch_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -33,16 +33,19 @@ ch_options.add_argument("--disable-gpu")
 ch_options.add_argument('--no-sandbox')
 ch_options.add_argument('--single-process')
 ch_options.add_argument('--disable-dev-shm-usage')
-
+print("... Done")
 
 
 # ch_options.add_argument("--headless")
 # ch_options.add_argument("--incognito")
-
+print("running chrome")
 webdriver=Chrome(options=ch_options)
+print("running navigatorFlag")
 webdriver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+print("... Done")
+print("Getting Website")
 webdriver.get("https://discord.com/register")
-
+print("... Got")
 
 def join_server(server_invite: str):
     webdriver.find_element(by=By.CLASS_NAME,value="circleIconButton_d8df29").click()
@@ -50,81 +53,70 @@ def join_server(server_invite: str):
 
 wait(4)
 
-
+print("Website loaded!")
+print("Getting Elements")
 email_box = webdriver.find_element(by=By.NAME, value="email")
 password_box=webdriver.find_element(by=By.NAME,value="password")
 username=webdriver.find_element(by=By.NAME,value="username")
 displayname=webdriver.find_element(by=By.NAME,value="global_name")
 check_box=webdriver.find_elements(by=By.CLASS_NAME,value="input__52838")[1]
 
+print("Creating Dummmy Credentials")
 TEMP_INVITE="WzUmVnEeEr"
 d_name=gen_name()
 emailsplit=get_email_split(setting_file['default_email'])
 e_name=f"{emailsplit[0]}+{gen_random()}@{emailsplit[1]}"
-print(e_name)
+print(f"EMAIL: {e_name}")
 u_name=d_name+str(random.randint(0,1928685))
-print(u_name)
+print(f"USERNAME: {u_name}")
 p_pass=gen_random()
 print(p_pass)
 
+print("... Done")
+
+print("Sending Credentials")
 email_box.send_keys(e_name)
 password_box.send_keys(p_pass)
 displayname.send_keys(d_name)
 username.send_keys(u_name)
-# with open(file="Data/accounts_old.json",mode="r+") as file:
-#
-#     json_load=json.load(file)
-#     file.truncate(0)
-#     print(file.read())
-#     print(json_load)
-#     json_load["accounts"][u_name]={
-#         "display_name": d_name,
-#         "pass": p_pass,
-#         "email": e_name,
-#         "username": u_name
-#     }
-#     json.dump(json_load,file)
 
+print("... Done")
 
+print("Checking:")
 check_box.click()
 password_box.click()
 
+print("Setting Birth")
 day=webdriver.find_element(by=By.CLASS_NAME,value="day__86dab").find_element(by=By.CLASS_NAME,value="css-1hwfws3")
 month=webdriver.find_element(by=By.CLASS_NAME,value="month_c81b3d").find_element(by=By.CLASS_NAME,value="css-1hwfws3")
 year=webdriver.find_element(by=By.CLASS_NAME,value="css-1hwfws3")
 
-login_box=webdriver.find_element(by=By.CLASS_NAME,value="button__47891")
+login_box=webdriver.find_element(by=By.CLASS_NAME,value="button__5573c")
 
 #
 action=ActionChains(webdriver)
 action.send_keys(Keys.TAB).perform()
+print("birth Keys")
 for _ in range(0,3):
     action.send_keys(Keys.UP).perform()
     action.send_keys(Keys.ENTER).perform()
 
 # alexander_stubb=webdriver.find_element(by=By.CLASS_NAME,value="css-3esr4u-a11yText")
 # alexander_stubb.click()
+print("Registering... Please input hCaptcha to proceed")
 login_box.click()
-if str(input("rdy?: "))=="E":
+if str(input("Done with captcha (press E to abort!)?: "))=="E":
     exit(0)
 
 storage=LocalStorage(webdriver)
 webdriver.refresh()
 wait(0.2)
 
-print(webdriver.execute_script("return window.localStorage;"))
+
 
 
 
 wait(3)
-
-# action.send_keys(Keys.ESCAPE).perform()
-# webdriver.find_element(by=By.XPATH,value='//*[@id="app-mount"]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]/div[2]/a').click() #want to join a server?
-# wait(0.1)
-# action.send_keys(Keys.TAB).perform()
-# action.send_keys(TEMP_INVITE).perform()
-# wait(0.1)
-# webdriver.find_element(by=By.XPATH,value='//*[@id="app-mount"]/div[2]/div[1]/div[4]/div[2]/div/div/div[2]/div[2]/button[1]').click() #join
 
 
 wait(200)
