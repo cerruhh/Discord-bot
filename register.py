@@ -28,6 +28,12 @@ ch_options=ChromeOptions()
 ch_options.add_argument("--disable-blink-features=AutomationControlled")
 ch_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 ch_options.add_experimental_option("useAutomationExtension", False)
+ch_options.add_argument("--disable-gpu")
+ch_options.add_argument("--disable-gpu")
+ch_options.add_argument('--no-sandbox')
+ch_options.add_argument('--single-process')
+ch_options.add_argument('--disable-dev-shm-usage')
+
 
 
 # ch_options.add_argument("--headless")
@@ -49,7 +55,7 @@ email_box = webdriver.find_element(by=By.NAME, value="email")
 password_box=webdriver.find_element(by=By.NAME,value="password")
 username=webdriver.find_element(by=By.NAME,value="username")
 displayname=webdriver.find_element(by=By.NAME,value="global_name")
-check_box=webdriver.find_elements(by=By.CLASS_NAME,value="inputDefault__7fb3f")[1]
+check_box=webdriver.find_elements(by=By.CLASS_NAME,value="input__52838")[1]
 
 TEMP_INVITE="WzUmVnEeEr"
 d_name=gen_name()
