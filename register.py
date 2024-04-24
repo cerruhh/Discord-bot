@@ -7,6 +7,11 @@ from time import sleep as wait
 from Dataloaders.settingloader import get_settings
 from Dataloaders.settingloader import get_email_split
 from Dataloaders.LocalStorage import LocalStorage
+from undetected_chromedriver import Chrome as u_chrome
+from undetected_chromedriver import ChromeOptions as u_options
+
+import BasicTask
+
 import random
 import string
 
@@ -24,22 +29,23 @@ def gen_name():
 print("initializing complete")
 print("settings flags")
 
-ch_options=ChromeOptions()
-ch_options.add_argument("--disable-blink-features=AutomationControlled")
-ch_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-ch_options.add_experimental_option("useAutomationExtension", False)
-ch_options.add_argument("--disable-gpu")
-ch_options.add_argument("--disable-gpu")
-ch_options.add_argument('--no-sandbox')
-ch_options.add_argument('--single-process')
-ch_options.add_argument('--disable-dev-shm-usage')
-print("... Done")
+# ch_options=ChromeOptions()
+# ch_options.add_argument("--disable-blink-features=AutomationControlled")
+# ch_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+# ch_options.add_experimental_option("useAutomationExtension", False)
+# ch_options.add_argument("--disable-gpu")
+# ch_options.add_argument("--disable-gpu")
+# ch_options.add_argument('--no-sandbox')
+# ch_options.add_argument('--single-process')
+# ch_options.add_argument('--disable-dev-shm-usage')
+#
+# print("... Done")
 
 
 # ch_options.add_argument("--headless")
 # ch_options.add_argument("--incognito")
 print("running chrome")
-webdriver=Chrome(options=ch_options)
+webdriver=BasicTask.CreateDriver()
 print("running navigatorFlag")
 webdriver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 print("... Done")
@@ -59,7 +65,7 @@ email_box = webdriver.find_element(by=By.NAME, value="email")
 password_box=webdriver.find_element(by=By.NAME,value="password")
 username=webdriver.find_element(by=By.NAME,value="username")
 displayname=webdriver.find_element(by=By.NAME,value="global_name")
-check_box=webdriver.find_elements(by=By.CLASS_NAME,value="input__52838")[1]
+check_box=webdriver.find_elements(by=By.CLASS_NAME,value="inputDefault_f6df22")[1]
 
 print("Creating Dummmy Credentials")
 TEMP_INVITE="WzUmVnEeEr"
